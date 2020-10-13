@@ -16,7 +16,18 @@ limitations under the License.
 
 package main
 
-import "github.com/kubernetes-incubator/external-storage/iscsi/targetd/cmd"
+import (
+	"flag"
+
+	"github.com/kubernetes-incubator/external-storage/iscsi/targetd/cmd"
+)
+
+func init() {
+	// Workaround for "ERROR: logging before flag.Parse"
+	fs := flag.NewFlagSet("", flag.ContinueOnError)
+	_ = fs.Parse([]string{})
+	flag.CommandLine = fs
+}
 
 func main() {
 	cmd.Execute()
